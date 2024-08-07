@@ -100,7 +100,6 @@ public class SampleController {
 		list.add(dto);
 		list.add(dto);
 		list.add(dto);
-		list.remove(1);
 		HttpHeaders header = new HttpHeaders();
 		header.add("Content-Type", "application/json;charset=UTF-8");
 		
