@@ -13,7 +13,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-*.xml
+a.txt
 
 # External tool builders
 .externalToolBuilders/
