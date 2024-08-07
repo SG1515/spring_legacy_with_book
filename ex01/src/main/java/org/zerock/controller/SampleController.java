@@ -1,10 +1,18 @@
 package org.zerock.controller;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.SampleDTO;
 
@@ -60,5 +68,44 @@ public class SampleController {
 		return "ex04";
 	}
 	
+	
+	@GetMapping("ex05")
+	public void ex05() {
+		
+		log.info("ex05.........");
+	}
+	
+	
+	@GetMapping("ex06")
+	public @ResponseBody SampleDTO ex06() {
+		SampleDTO dto = new SampleDTO();
+		dto.setName("홍길동");
+		dto.setAge(20);
+		
+		return dto;
+	}
+	
+	@GetMapping("ex07")
+	public ResponseEntity<List<SampleDTO>> ex07() {
+		log.info("ex07.............");
+		List<SampleDTO> list = new ArrayList<>();
+		
+		
+		//{"name":"홍길동"}
+		String massage = "{\"name\" : \"홍길동\"}";
+		SampleDTO dto = new SampleDTO();
+		dto.setName("홍길동");
+		dto.setAge(20);
+		list.add(dto);
+		list.add(dto);
+		list.add(dto);
+		list.add(dto);
+		list.remove(1);
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "application/json;charset=UTF-8");
+		
+		return new ResponseEntity<>(list, header, HttpStatus.OK);
+		
+	}
 	
 }
