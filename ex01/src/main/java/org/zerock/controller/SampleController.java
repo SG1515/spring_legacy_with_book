@@ -1,8 +1,9 @@
 package org.zerock.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.plaf.multi.MultiFileChooserUI;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,9 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.SampleDTO;
 
@@ -27,28 +30,26 @@ public class SampleController {
 	public void basicGet() {
 		log.info("basic..............");
 	}
-	
-	
-	//데이터 가져오기 객체로
+
+	// 데이터 가져오기 객체로
 	@GetMapping("ex01")
 	public String ex01(SampleDTO dto) {
 		log.info("ex.............01");
 		log.info("dto :" + dto);
 		return "ex01";
 	}
-	
-	
-	//데이터 가져오기 RequestParam
+
+	// 데이터 가져오기 RequestParam
 	@GetMapping("ex02")
 	public String ex02(@RequestParam("name") String name, @RequestParam("age") int age) {
-		
-		log.info("나이 : "+ age);
-		log.info("이름 : "+ name); 
-		
+
+		log.info("나이 : " + age);
+		log.info("이름 : " + name);
+
 		return "ex02";
 	}
-	
-	//데이터값을 다른 페이지로 redirect하기 데이터 전달은 RedirectAttributs로 할 수 있음
+
+	// 데이터값을 다른 페이지로 redirect하기 데이터 전달은 RedirectAttributs로 할 수 있음
 	@GetMapping("ex03")
 	public String ex03(RedirectAttributes rttr) {
 		rttr.addAttribute("name", "bbb");
@@ -56,10 +57,10 @@ public class SampleController {
 		rttr.addAttribute("page", "30");
 		return "redirect:/sample/ex04";
 	}
-	
+
 	// View => Controller => View
 	// 객체는 가능하지만 일반 변수는 가능하지 않음.
-	 //requestParam을 하지 않아도 된다. 
+	// requestParam을 하지 않아도 된다.
 	@GetMapping("ex04")
 	public String ex04(SampleDTO dto, @ModelAttribute("page") int page) {
 		log.info("ex04..............");
@@ -67,31 +68,28 @@ public class SampleController {
 		log.info("dto : " + page);
 		return "ex04";
 	}
-	
-	
+
 	@GetMapping("ex05")
 	public void ex05() {
-		
+
 		log.info("ex05.........");
 	}
-	
-	
+
 	@GetMapping("ex06")
 	public @ResponseBody SampleDTO ex06() {
 		SampleDTO dto = new SampleDTO();
 		dto.setName("홍길동");
 		dto.setAge(20);
-		
+
 		return dto;
 	}
-	
+
 	@GetMapping("ex07")
 	public ResponseEntity<List<SampleDTO>> ex07() {
 		log.info("ex07.............");
 		List<SampleDTO> list = new ArrayList<>();
-		
-		
-		//{"name":"홍길동"}
+
+		// {"name":"홍길동"}
 		String massage = "{\"name\" : \"홍길동\"}";
 		SampleDTO dto = new SampleDTO();
 		dto.setName("홍길동");
@@ -102,9 +100,11 @@ public class SampleController {
 		list.add(dto);
 		HttpHeaders header = new HttpHeaders();
 		header.add("Content-Type", "application/json;charset=UTF-8");
-		
+
 		return new ResponseEntity<>(list, header, HttpStatus.OK);
-		
+
 	}
-	
-}
+
+
+
+} // end of class
