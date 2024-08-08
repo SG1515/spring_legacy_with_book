@@ -28,11 +28,12 @@ public class BoardMapperTests {
 	@Test
 	public void testInsert() {
 		BoardVO board = new BoardVO();
-		board.setTitle("새로운글2");
-		board.setContent("ggdgd");
-		board.setWriter("newUSer2");
+		board.setTitle("새로운글3");
+		board.setContent("ggdgd333333");
+		board.setWriter("newUSer3");
 		
-		mapper.insert(board);
+//		mapper.insert(board);
+		mapper.insertSelectKey(board);
 	}
 
 }
