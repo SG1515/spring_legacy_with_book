@@ -20,20 +20,44 @@ public class BoardMapperTests {
 	@Autowired
 	private BoardMapper mapper;
 	
-	@Test
-	public void test() {
-		mapper.getList().forEach(board -> log.info(board));
-	}
+//	@Test
+//	public void test() {
+//		mapper.getList().forEach(board -> log.info(board));
+//	}
+//	
+//	@Test
+//	public void testInsert() {
+//		BoardVO board = new BoardVO();
+//		board.setTitle("새로운글3");
+//		board.setContent("ggdgd333333");
+//		board.setWriter("newUSer3");
+//		
+//		mapper.insert(board);
+//		mapper.insertSelectKey(board);
+//	}
+
+//	@Test
+//	public void testSelect() {
+//		//존재하는 게시물 번호로 테스트
+//		BoardVO board = mapper.read(3L);
+//		log.info(board);
+//	}
+
+//	@Test
+//	public void testDelete() {
+//		log.info("Delete Count: " + mapper.delete(3L));
+//	}
+
 	
 	@Test
-	public void testInsert() {
+	public void testUpdate() { 
 		BoardVO board = new BoardVO();
-		board.setTitle("새로운글3");
-		board.setContent("ggdgd333333");
-		board.setWriter("newUSer3");
+		board.setBno(4L);
+		board.setTitle("수정된 제목");
+		board.setContent("수정된 내용");
+		board.setWriter("user00");
 		
-//		mapper.insert(board);
-		mapper.insertSelectKey(board);
+		int count = mapper.update(board);
+		log.info("Update count : " + count);
 	}
-
 }
