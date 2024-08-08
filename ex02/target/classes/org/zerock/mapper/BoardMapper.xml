@@ -33,7 +33,7 @@
 		]]>
 	</select>
 
-	<!-- <insert id="insert">
+	<insert id="insert">
 		insert into tbl_board (bno,title,content,writer)
 		values (seq_board.nextval, #{title}, #{content}, #{writer})
 	</insert>
@@ -49,7 +49,7 @@
 		values (#{bno},
 		#{title}, #{content}, #{writer})
 	</insert>
-
+	<!--
 	<select id="read" resultType="org.zerock.domain.BoardVO">
 		select * from tbl_board where bno =
 		#{bno}
