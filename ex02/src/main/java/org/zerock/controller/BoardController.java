@@ -3,6 +3,7 @@ package org.zerock.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,57 +23,53 @@ import lombok.extern.log4j.Log4j;
 public class BoardController {
 
 	private BoardService service;
-	
-	
+
 	@GetMapping("list")
 	public void list(Criteria cri, Model model) {
 		log.info("list........");
 		model.addAttribute("list", service.getList(cri));
+		// 123이라고 total값을 주었기 때문에
 		model.addAttribute("pageMaker", new PageDTO(cri, 123));
 	}
-	
-	
-	
-	
+
 	@GetMapping("register")
 	public void register() {
-		
+
 	}
-	
+
 	@PostMapping("register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
-		
+
 		service.register(board);
 		log.info("register : " + board);
 		rttr.addFlashAttribute("result", board.getBno());
-		
+
 		return "redirect:/board/list";
 	}
-	
-	@GetMapping({"get", "modify"})
-	public void get(@RequestParam("bno") Long bno, Model model) {
+
+	@GetMapping({ "get", "modify" })
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("/get or /modify..........");
-		
+
 		model.addAttribute("board", service.get(bno));
 	}
-	
+
 	@PostMapping("/modify")
-	public String modify(BoardVO board, RedirectAttributes rttr) {
-		if(service.modify(board)) {
+	public String modify(BoardVO board,@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+		if (service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		
+
 		return "redirect:/board/list";
 	}
-	
+
 	@PostMapping("remove")
-	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
-		if(service.remove(bno)) { 
+	public String remove(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri,RedirectAttributes rttr) {
+		if (service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		
+
 		return "redirect:/board/list";
 	}
-	
-	
+
 }
