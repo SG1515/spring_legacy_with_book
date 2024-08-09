@@ -29,7 +29,7 @@ public class BoardController {
 		log.info("list........");
 		model.addAttribute("list", service.getList(cri));
 		// 123이라고 total값을 주었기 때문에
-		model.addAttribute("pageMaker", new PageDTO(cri, 123));
+		model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri)));
 	}
 
 	@GetMapping("register")

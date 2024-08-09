@@ -123,16 +123,16 @@
   ]]>
 	</select>
 
-
+-->
 
 
 	<select id="getTotalCount" resultType="int">
 		select count(*) from tbl_board where 
 		
-		<include refid="criteria"></include> 
-		
+<!-- 		<include refid="criteria"></include> 
+ -->		
 		bno > 0
 		
-	</select> -->
+	</select> 
 
 </mapper>
