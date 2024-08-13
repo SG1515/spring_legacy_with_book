@@ -94,21 +94,9 @@
 				if (!checkExtension(files[i].name, files[i].size)) {
 					return false;
 				}
-
-
 				formData.append("uploadFile", files[i]);
-
 			}
 			
-			for (var i = 0; i < files.length; i++) {
-
-				if (!checkExtension(files[i].name, files[i].size)) {
-					return false;
-				}
-
-				formData.append("uploadFile", files[i]);
-
-			}
 
 			$.ajax({
 				url : '/uploadAjaxAction',

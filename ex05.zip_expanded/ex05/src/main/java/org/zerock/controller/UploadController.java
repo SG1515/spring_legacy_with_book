@@ -1,6 +1,8 @@
 package org.zerock.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,14 +46,23 @@ public class UploadController {
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
 
 		String uploadFolder = "C:\\upload\\temp";
+		String uploadFolderPath = getFolder();
 
+		// 년/월/일 폴더의 생성
+		File uploadPath = new File(uploadFolder, uploadFolderPath);
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		
 		for (MultipartFile multipartFile : uploadFile) {
 
 			log.info("-------------------------------------");
 			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
 			log.info("Upload File Size: " + multipartFile.getSize());
 
-			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
+//			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
+			File saveFile = new File(uploadPath, multipartFile.getOriginalFilename());
 
 			try {
 				multipartFile.transferTo(saveFile);
@@ -59,5 +70,18 @@ public class UploadController {
 				log.error(e.getMessage());
 			}
 		}
+	}
+	
+	/**
+	 * 년/월/일 폴더 생성
+	 * 
+	 * @return
+	 */
+	private String getFolder() {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date(); 
+		String str = sdf.format(date); // 형태에 맞는 날짜로 만들어진다.
+		return str.replace("-", File.separator);
 	}
 }
