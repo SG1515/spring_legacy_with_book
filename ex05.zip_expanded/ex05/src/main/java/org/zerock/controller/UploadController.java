@@ -20,17 +20,44 @@ public class UploadController {
 	}
 	
 	
-	@PostMapping("/uploadFormAction")
-	public void uploadFormPost(MultipartFile uploadFile, Model model) {
-		log.info("file Name: " + uploadFile.getOriginalFilename());
-		log.info("file Size : " + uploadFile.getSize());
-		
+//	@PostMapping("/uploadFormAction")
+//	public void uploadFormPost(MultipartFile uploadFile, Model model) {
+//		log.info("file Name: " + uploadFile.getOriginalFilename());
+//		log.info("file Size : " + uploadFile.getSize());
+//		
+//		String uploadFolder = "C:\\upload\\temp";
+//		File saveFile = new File(uploadFolder, uploadFile.getOriginalFilename());
+//		try {
+//			uploadFile.transferTo(saveFile);
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+
+	@GetMapping("/uploadAjax")
+	public void uploadAjax() {
+		log.info("upload ajax");
+	}
+	
+	@PostMapping("/uploadAjaxAction")
+	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
+
 		String uploadFolder = "C:\\upload\\temp";
-		File saveFile = new File(uploadFolder, uploadFile.getOriginalFilename());
-		try {
-			uploadFile.transferTo(saveFile);
-		} catch(Exception e) {
-			e.printStackTrace();
+
+		for (MultipartFile multipartFile : uploadFile) {
+
+			log.info("-------------------------------------");
+			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
+			log.info("Upload File Size: " + multipartFile.getSize());
+
+			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
+
+			try {
+				multipartFile.transferTo(saveFile);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
 		}
 	}
 }
