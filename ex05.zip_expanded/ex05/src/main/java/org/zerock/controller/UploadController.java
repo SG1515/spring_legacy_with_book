@@ -1,6 +1,9 @@
 package org.zerock.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @Log4j
@@ -69,7 +73,17 @@ public class UploadController {
 			File saveFile = new File(uploadPath, uploadFileName);
 
 			try {
-				multipartFile.transferTo(saveFile);
+				multipartFile.transferTo(saveFile); //파일 업로드 실행되는 순간
+				
+				// 이미지 업로드 이후에 이미지 체크 
+				if (checkImageType(saveFile)) {
+					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+
+					// Thumbnailator는 InputStream과 java.io.File 객체를 이용해서 파일을 생성할 수 있고, 뒤에 사이즈에 대한 부분을 파라미터로 witdh와 height를 지정할 수 있음
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+
+					thumbnail.close();
+				}
 			} catch (Exception e) {
 				log.error(e.getMessage());
 			}
@@ -88,4 +102,19 @@ public class UploadController {
 		String str = sdf.format(date); // 형태에 맞는 날짜로 만들어진다.
 		return str.replace("-", File.separator);
 	}
+	
+	/* 이미지 파일 체크하기.*/
+	private boolean checkImageType(File file) {
+
+		try {
+			String contentType = Files.probeContentType(file.toPath());
+			return contentType.startsWith("image");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
 }
