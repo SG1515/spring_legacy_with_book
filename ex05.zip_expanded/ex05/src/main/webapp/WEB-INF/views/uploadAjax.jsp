@@ -156,6 +156,23 @@
       return true;
    }
    
+   function showUploadedFile(uploadResultArr){
+	   
+	   var str = "";
+	   
+	   $(uploadResultArr).each(function(i, obj){
+	     
+	     if(!obj.image){	       
+	       str += "<li><a href='/download?fileName="+fileCallPath+"'><img src='/resources/img/attach.png'>"+obj.fileName+"</a></li>"
+	     }else{
+	       
+	       str += "<li><a href=\"javascript:showImage(\'"+originPath+"\')\"><img src='/display?fileName="+fileCallPath+"'></a><li>";
+	     }
+	   });
+	   
+	   uploadResult.append(str);
+	 }
+   
 </script>
 
 
