@@ -25,4 +25,6 @@ public class SampleController2 {
 	public void doAdmin() {
 		log.info("admin only");
 	}
+	
+	
 }
